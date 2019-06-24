@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+.merriweather {
+  font-family: 'Merriweather', serif;
+}
+.yellow {
+  color: #FFC66D!important;
+}
+.purple {
+  color: #9876AA!important;
+}
+.orange {
+  color: #CC7832!important;
+}
+html {
+  font-family: 'Montserrat', sans-serif;
+}

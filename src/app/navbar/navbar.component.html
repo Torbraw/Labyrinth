@@ -1,0 +1,19 @@
+<div class="w3-bar w3-hide-small navbar-frame">
+  <ul class="navbar">
+    <li class="navbar-item w3-bar-item merriweather" [routerLink]="['top']"><img alt="logo" src="../../assets/Image/Icon.png" class="logo"><span class="name">Maxime Gendron</span>
+    <li class="navbar-item w3-bar-item w3-right merriweather" (click)="switchLang()">{{'navbar.lang' | translate}}</li>
+  </ul>
+</div>
+
+<div class="w3-bar w3-hide-large w3-hide-medium navbar-frame">
+  <ul class="navbar">
+    <li class="navbar-item w3-bar-item merriweather" [routerLink]="['top']"><img alt="logo" src="../../assets/Image/Icon.png" class="logo"><span class="name">Maxime Gendron</span>
+    <li class="navbar-item w3-bar-item w3-right" (click)="show()"><i class="fa fa-bars"></i></li>
+    <li class="navbar-item w3-bar-item w3-right merriweather" (click)="switchLang()">{{'navbar.lang' | translate}}</li>
+  </ul>
+</div>
+
+<div id="smallNav" class="w3-bar-block w3-hide w3-hide-large w3-hide-medium w3-top">
+  <ul id="smallNavUl">
+  </ul>
+</div>

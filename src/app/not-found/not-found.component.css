@@ -1,0 +1,35 @@
+#main {
+  background-color: #2a2a2a;
+  color: #000000;
+  font-family: "Bevan", cursive;
+  height: 100vh;
+}
+.full {
+  height: 100%;
+}
+#title {
+  font-size: 100px;
+  font-family: 'Press Start 2P', cursive;
+}
+code {
+  color: #A9B7C6!important;
+  font-size: 30px;
+  margin: 0 25px;
+}
+@media screen and (max-width:700px) {
+  #title {
+    font-size: 80px;
+  }
+  .br {
+    display: none;
+  }
+}
+@media screen and (max-width:400px) {
+  #title {
+    font-size: 50px;
+  }
+  code {
+    font-size: 16px;
+    margin: 0 12px;
+  }
+}
