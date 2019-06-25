@@ -1,1 +1,31 @@
 <app-navbar></app-navbar>
+<div id="main">
+  <div id="container">
+    <div id="info" class="w3-text-white">
+      <p>Simple WebSite to generate a random labyrinth given the number of row/column the user enter.</p>
+      <div id="input" class="w3-row">
+        <div class="w3-col l6 m6 s6">
+          <label>{{'input.row' | translate}}</label>
+          <input [min]="10" [max]="50" [(ngModel)]="nbRows" class="w3-input" (keyup)="validInput($event)">
+          <span class="w3-small w3-text-red">{{errorRow}}</span>
+        </div>
+        <div class="w3-col l6 m6 s6">
+          <label>{{'input.col' | translate}}</label>
+          <input [min]="10" [max]="50" [(ngModel)]="nbCols" class="w3-input" (keyup)="validInput($event)">
+          <span class="w3-small w3-text-red">{{errorCol}}</span>
+        </div>
+      </div>
+      <div class="w3-display-container">
+        <button id="inputButton" class="w3-button w3-display-right w3-round-medium" (click)="go()">GO</button>
+      </div>
+    </div>
+    <div id="tableDiv" class="w3-hide-small">
+      <table>
+        <tr *ngFor="let row of rowArray; let r = index">
+          <td id="cell{{r}}.{{c}}" *ngFor="let col of colArray; let c = index">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

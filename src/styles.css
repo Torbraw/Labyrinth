@@ -11,6 +11,12 @@
 .orange {
   color: #CC7832!important;
 }
-html {
+html, body {
   font-family: 'Montserrat', sans-serif;
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+}
+.swal_title {
+  font-family: 'Merriweather', serif !important;
 }

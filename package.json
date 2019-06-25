@@ -25,6 +25,7 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "core-js": "^2.5.4",
     "rxjs": "~6.3.3",
+    "sweetalert2": "^8.13.0",
     "typed.js": "^2.0.10",
     "zone.js": "~0.8.26"
   },

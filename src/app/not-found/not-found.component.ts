@@ -25,7 +25,7 @@ export class NotFoundComponent implements OnInit {
       showCursor: false
     });
     const typed2 = new Typed('.typed-element2', {
-      strings: ['<span class="orange">else</span> { window.<span class="purple">location</span> = <a class="gray" id="home" href="https://maxgendron.com">home</a><span class="orange">;</span> }'],
+      strings: ['<span class="orange">else</span> { window.<span class="purple">location</span> = <a class="gray" id="home" href="https://labyrinth.maxgendron.com">home</a><span class="orange">;</span> }'],
       typeSpeed: 20,
       startDelay: 3500,
       fadeOut: true,

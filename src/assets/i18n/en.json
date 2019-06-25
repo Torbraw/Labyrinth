@@ -1,5 +1,14 @@
 {
   "navbar": {
     "lang": "Français"
+  },
+  "input": {
+    "row": "Number of rows",
+    "col": "Number of columns",
+    "warning": "Only number, minimum 10, maximum 50."
+  },
+  "swal":{
+    "waitTitle": "Please wait",
+    "waitText": "The labyrinth is being generated"
   }
 }
