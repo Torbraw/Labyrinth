@@ -5,7 +5,7 @@
   "input": {
     "row": "Number of rows",
     "col": "Number of columns",
-    "warning": "Only number, minimum 10, maximum 50."
+    "warning": "Only number, minimum 10, maximum 100."
   },
   "swal":{
     "waitTitle": "Please wait",

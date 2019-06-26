@@ -15,12 +15,12 @@
 }
 table {
   border-collapse: collapse;
-  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
-th, td {
+td {
   border: 1px solid white;
   text-align: center;
-  height: 26px;
 }
 .w3-row-padding {
   padding-right: 0;

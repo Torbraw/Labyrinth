@@ -17,6 +17,7 @@ export class MainComponent implements OnInit {
   errorCol = '';
   rowArray = [];
   colArray = [];
+  tdStyle;
   needReset = false;
 
   constructor(private translate: TranslateService) { }
@@ -38,7 +39,7 @@ export class MainComponent implements OnInit {
         this.errorRow = '';
         if (row < 10) {
           this.errorRow = this.translate.instant('input.warning');
-        } else if (row > 50) {
+        } else if (row > 100) {
           this.errorRow = this.translate.instant('input.warning');
         } else {
           this.errorRow = '';
@@ -51,7 +52,7 @@ export class MainComponent implements OnInit {
         this.errorCol = '';
         if (col < 10) {
           this.errorCol = this.translate.instant('input.warning');
-        } else if (col > 50) {
+        } else if (col > 100) {
           this.errorCol = this.translate.instant('input.warning');
         } else {
           this.errorCol = '';
@@ -82,11 +83,34 @@ export class MainComponent implements OnInit {
           Swal.showLoading();
         }
       });
-      //Obligated if we want to let time for the grid to be build
-      //It's ugly, I know.
+      //Obligated to use promise if we want to let time for the grid to be build
+      //It's ugly, I know but don't know of a better way
+      await new Promise(resolve => setTimeout(resolve, 0));
+      this.setTdStyle();
       await new Promise(resolve => setTimeout(resolve, 0));
       this.generateLab();
+      Swal.close();
       this.needReset = true;
+    }
+  }
+
+  setTdStyle() {
+    let height = '25px';
+    let width = '25px';
+
+    if (parseInt(this.nbRows) > 55 || parseInt(this.nbCols) > 55)
+    {
+      height = '20px';
+      width = '20px';
+    }
+    if (parseInt(this.nbRows) > 80 || parseInt(this.nbCols) > 80) {
+      height = '15px';
+      width = '15px';
+    }
+
+    this.tdStyle = {
+      'height': height,
+      'width': width
     }
   }
 
@@ -133,7 +157,6 @@ export class MainComponent implements OnInit {
     let end: Cell = new Cell(parseInt(this.nbRows) -1,e);
     let endCell = document.getElementById('cell' + end.toString());
     endCell.style.borderBottom = '0';
-    Swal.close();
   }
 
   checkCells(row, col, historyTab) {
@@ -192,7 +215,8 @@ export class MainComponent implements OnInit {
   }
 
   reset() {
-    //Pretty nasty, didn't look up if there was a better way
-    this.needReset = false;
+    this.tdStyle = {
+      'border': '1px solid white'
+    };
   }
 }

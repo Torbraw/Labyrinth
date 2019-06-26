@@ -5,7 +5,7 @@
   "input": {
     "row": "Nombre de rangées",
     "col": "Nombre de colonnes",
-    "warning": "Seulement des chiffres, minimum 10, maximum 50."
+    "warning": "Seulement des chiffres, minimum 10, maximum 100."
   },
   "swal":{
     "waitTitle": "Veuillez patienter",
