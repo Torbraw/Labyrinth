@@ -32,8 +32,36 @@ td {
 #input div:last-child {
   padding-left: 8px;
 }
-#inputButton {
+.inputButton {
+  margin-left: 8px;
   margin-top: 30px;
   color: white;
   background-color: #ff3333;
+}
+.start {
+  background-color: #cc5200;
+}
+.end {
+  background-color: #b82e8a;
+}
+.user {
+ background-color: #008ae6;
+}
+.bot {
+  background-color: #b30000;
+}
+.legend {
+  width: 25px;
+  height: 25px;
+}
+#legend p {
+  margin-top: 0;
+  text-decoration: underline;
+}
+#legend span {
+  padding-top: 3px;
+  height: 25px;
+}
+#legend .w3-row {
+  padding-bottom: 8px;
 }

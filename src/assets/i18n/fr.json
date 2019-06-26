@@ -5,10 +5,18 @@
   "input": {
     "row": "Nombre de rangées",
     "col": "Nombre de colonnes",
-    "warning": "Seulement des chiffres, minimum 10, maximum 100."
+    "warning": "Seulement des chiffres, minimum 10, maximum 100.",
+    "resolve": "Résoudre"
   },
   "swal":{
     "waitTitle": "Veuillez patienter",
     "waitText": "Le labyrinthe est en train d'être généré"
+  },
+  "legend": {
+    "title": "Légende",
+    "start": "Début:",
+    "end": "Fin:",
+    "bot": "Robot:",
+    "user": "Utilisateur:"
   }
 }

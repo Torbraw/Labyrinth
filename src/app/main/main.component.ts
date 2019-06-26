@@ -122,6 +122,7 @@ export class MainComponent implements OnInit {
     //remove top border for the enter
     let startCell = document.getElementById('cell' + start.toString());
     startCell.style.borderTop = '0';
+    startCell.style.backgroundColor = '#cc5200';
     let stack = [];
     let historyTab = [];
     stack.push(start);
@@ -157,6 +158,7 @@ export class MainComponent implements OnInit {
     let end: Cell = new Cell(parseInt(this.nbRows) -1,e);
     let endCell = document.getElementById('cell' + end.toString());
     endCell.style.borderBottom = '0';
+    endCell.style.backgroundColor = '#b82e8a';
   }
 
   checkCells(row, col, historyTab) {
@@ -218,5 +220,9 @@ export class MainComponent implements OnInit {
     this.tdStyle = {
       'border': '1px solid white'
     };
+  }
+
+  resolve() {
+
   }
 }
