@@ -11,8 +11,8 @@ import {CellCheck} from '../models/cell-check';
 })
 export class MainComponent implements OnInit {
 
-  nbRows : string = '10';
-  nbCols : string = '10';
+  nbRows = '10';
+  nbCols = '10';
   errorRow = '';
   errorCol = '';
   rowArray = [];
@@ -63,7 +63,7 @@ export class MainComponent implements OnInit {
 
   async go() {
     this.validInput(null);
-    if (this.errorRow == '' && this.errorCol == '') {
+    if (this.errorRow === '' && this.errorCol === '') {
       if (this.needReset) {
         this.reset();
       }
@@ -83,8 +83,8 @@ export class MainComponent implements OnInit {
           Swal.showLoading();
         }
       });
-      //Obligated to use promise if we want to let time for the grid to be build
-      //It's ugly, I know but don't know of a better way
+      // Obligated to use promise if we want to let time for the grid to be build
+      // It's ugly, I know but don't know of a better way
       await new Promise(resolve => setTimeout(resolve, 0));
       this.setTdStyle();
       await new Promise(resolve => setTimeout(resolve, 0));
@@ -98,8 +98,7 @@ export class MainComponent implements OnInit {
     let height = '25px';
     let width = '25px';
 
-    if (parseInt(this.nbRows) > 55 || parseInt(this.nbCols) > 55)
-    {
+    if (parseInt(this.nbRows) > 55 || parseInt(this.nbCols) > 55) {
       height = '20px';
       width = '20px';
     }
@@ -111,96 +110,96 @@ export class MainComponent implements OnInit {
     this.tdStyle = {
       'height': height,
       'width': width
-    }
+    };
   }
 
   generateLab() {
-    //Generate the lab
-    const nbCells = ((parseInt(this.nbRows)) * (parseInt(this.nbCols))) -1;
-    let s = Math.floor(Math.random() * (parseInt(this.nbCols) - 1) + 1);
-    let start: Cell = new Cell(0,s);
-    //remove top border for the enter
-    let startCell = document.getElementById('cell' + start.toString());
+    // Generate the lab
+    const nbCells = ((parseInt(this.nbRows)) * (parseInt(this.nbCols))) - 1;
+    const s = Math.floor(Math.random() * (parseInt(this.nbCols) - 1) + 1);
+    const start: Cell = new Cell(0, s);
+    // remove top border for the enter
+    const startCell = document.getElementById('cell' + start.toString());
     startCell.style.borderTop = '0';
     startCell.style.backgroundColor = '#cc5200';
-    let stack = [];
-    let historyTab = [];
+    const stack = [];
+    const historyTab = [];
     stack.push(start);
     historyTab.push(start);
-    let current: Cell = new Cell(-1,-1);
-    while (current.toString() != start.toString()) {
-      if (current.toString() == '-1.-1') {
+    let current: Cell = new Cell(-1, -1);
+    while (current.toString() !== start.toString()) {
+      if (current.toString() === '-1.-1') {
         current = start;
       }
-      let row = current.row;
-      let col = current.col;
-      //Check the adjacent cells
-      let validTab = this.checkCells(row,col,historyTab);
-      //If the tab don't contains cells, return to the last one
-      if (validTab.length == 0) {
+      const row = current.row;
+      const col = current.col;
+      // Check the adjacent cells
+      const validTab = this.checkCells(row, col, historyTab);
+      // If the tab don't contains cells, return to the last one
+      if (validTab.length === 0) {
         stack.pop();
         current = stack[stack.length - 1];
       } else {
-        //Get nextCell
-        let rnd = Math.floor(Math.random() * (validTab.length));
-        let nextCell = validTab[rnd];
-        //Remove border
-        let currentCell = document.getElementById('cell' + current.toString());
+        // Get nextCell
+        const rnd = Math.floor(Math.random() * (validTab.length));
+        const nextCell = validTab[rnd];
+        // Remove border
+        const currentCell = document.getElementById('cell' + current.toString());
         this.openWall(nextCell, currentCell);
-        //Set the current for the next one and put it in histTab
+        // Set the current for the next one and put it in histTab
         current = nextCell.cell;
         historyTab.push(current);
         stack.push(current);
       }
     }
-    //Remove bot border for the end
-    let e = Math.floor(Math.random() * (parseInt(this.nbCols) - 1) + 1);
-    let end: Cell = new Cell(parseInt(this.nbRows) -1,e);
-    let endCell = document.getElementById('cell' + end.toString());
+    // Remove bot border for the end
+    const e = Math.floor(Math.random() * (parseInt(this.nbCols) - 1) + 1);
+    const end: Cell = new Cell(parseInt(this.nbRows) - 1, e);
+    const endCell = document.getElementById('cell' + end.toString());
     endCell.style.borderBottom = '0';
     endCell.style.backgroundColor = '#b82e8a';
   }
 
   checkCells(row, col, historyTab) {
-    let validTab = [];
-    //check top
+    const validTab = [];
+    // check top
     if (row > 0) {
-      let top = new Cell((row - 1), col);
-      let indexTop = (historyTab.filter(cell => cell.toString() == top.toString())).length;
-      if (indexTop == 0) {
-        validTab.push(new CellCheck(top,"top"));
+      const top = new Cell((row - 1), col);
+      const indexTop = (historyTab.filter(cell => cell.toString() === top.toString())).length;
+      if (indexTop === 0) {
+        validTab.push(new CellCheck(top, 'top'));
       }
     }
-    //check right
+    // check right
     if (col < parseInt(this.nbCols) - 1) {
-      let right = new Cell(row, (col + 1));
-      let indexRight = (historyTab.filter(cell => cell.toString() == right.toString())).length;
-      if (indexRight == 0) {
-        validTab.push(new CellCheck(right,"right"));
+      const right = new Cell(row, (col + 1));
+      const indexRight = (historyTab.filter(cell => cell.toString() === right.toString())).length;
+      if (indexRight === 0) {
+        validTab.push(new CellCheck(right, 'right'));
       }
     }
-    //check left
+    // check left
     if (col > 0) {
-      let left = new Cell(row, (col - 1));
-      let indexLeft = (historyTab.filter(cell => cell.toString() == left.toString())).length;
-      if (indexLeft == 0) {
-        validTab.push(new CellCheck(left,"left"));
+      const left = new Cell(row, (col - 1));
+      const indexLeft = (historyTab.filter(cell => cell.toString() === left.toString())).length;
+      if (indexLeft === 0) {
+        validTab.push(new CellCheck(left, 'left'));
       }
     }
-    //check bot
+    // check bot
     if (row < parseInt(this.nbRows) - 1) {
-      let bot = new Cell((row + 1), col);
-      let indexBot = (historyTab.filter(cell => cell.toString() == bot.toString())).length;
-      if (indexBot == 0) {
-        validTab.push(new CellCheck(bot,"bot"));
+      const bot = new Cell((row + 1), col);
+      const indexBot = (historyTab.filter(cell => cell.toString() === bot.toString())).length;
+      if (indexBot === 0) {
+        validTab.push(new CellCheck(bot, 'bot'));
       }
     }
     return validTab;
   }
 
   openWall(nextCell, currentCell) {
-    //Remove the border given which direction
-    let newCell = document.getElementById('cell' + nextCell.cell.toString());
+    // Remove the border given which direction
+    const newCell = document.getElementById('cell' + nextCell.cell.toString());
     if (nextCell.position === 'top') {
       currentCell.style.borderTop = '0';
       newCell.style.borderBottom = '0';
@@ -218,7 +217,8 @@ export class MainComponent implements OnInit {
 
   reset() {
     this.tdStyle = {
-      'border': '1px solid white'
+      'border': '1px solid white',
+      'background-color': ''
     };
   }
 
