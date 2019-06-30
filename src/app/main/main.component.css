@@ -39,10 +39,10 @@ td {
   background-color: #ff3333;
 }
 .start {
-  background-color: #cc5200;
+  border-bottom: 5px dotted #cc5200;
 }
 .end {
-  background-color: #b82e8a;
+  border-bottom: 5px dotted #b82e8a;
 }
 .user {
  background-color: #008ae6;

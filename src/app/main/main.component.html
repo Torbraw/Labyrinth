@@ -23,7 +23,7 @@
     <div id="tableDiv" class="w3-hide-small">
       <table>
         <tr *ngFor="let row of rowArray; let r = index">
-          <td [ngStyle]="tdStyle" id="cell{{r}}.{{c}}" *ngFor="let col of colArray; let c = index">
+          <td (click)="cellClick(r,c)" [ngStyle]="tdStyle" id="cell{{r}}.{{c}}" *ngFor="let col of colArray; let c = index">
           </td>
         </tr>
       </table>
