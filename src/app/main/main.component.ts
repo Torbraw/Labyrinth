@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import {Cell} from '../models/cell';
 import {CellCheck} from '../models/cell-check';
+import {Position} from '../models/position.enum';
 
 @Component({
   selector: 'app-main',
@@ -19,7 +20,7 @@ export class MainComponent implements OnInit {
   colArray = [];
   tdStyle;
   needReset = false;
-  clickedCell = [];
+  clickedCell : Cell[] = [];
   startCell: Cell;
   endCell: Cell;
 
@@ -118,7 +119,6 @@ export class MainComponent implements OnInit {
 
   generateLab() {
     //Generate the lab
-    const nbCells = ((parseInt(this.nbRows)) * (parseInt(this.nbCols))) -1;
     let s = Math.floor(Math.random() * (parseInt(this.nbCols) - 1) + 1);
     let start: Cell = new Cell(0,s);
     //remove top border for the enter
@@ -169,7 +169,7 @@ export class MainComponent implements OnInit {
       const top = new Cell((row - 1), col);
       const indexTop = (historyTab.filter(cell => cell.toString() === top.toString())).length;
       if (indexTop === 0) {
-        validTab.push(new CellCheck(top, 'top'));
+        validTab.push(new CellCheck(top, Position.Top));
       }
     }
     // check right
@@ -177,7 +177,7 @@ export class MainComponent implements OnInit {
       const right = new Cell(row, (col + 1));
       const indexRight = (historyTab.filter(cell => cell.toString() === right.toString())).length;
       if (indexRight === 0) {
-        validTab.push(new CellCheck(right, 'right'));
+        validTab.push(new CellCheck(right,  Position.Right));
       }
     }
     // check left
@@ -185,7 +185,7 @@ export class MainComponent implements OnInit {
       const left = new Cell(row, (col - 1));
       const indexLeft = (historyTab.filter(cell => cell.toString() === left.toString())).length;
       if (indexLeft === 0) {
-        validTab.push(new CellCheck(left, 'left'));
+        validTab.push(new CellCheck(left,  Position.Left));
       }
     }
     // check bot
@@ -193,7 +193,7 @@ export class MainComponent implements OnInit {
       const bot = new Cell((row + 1), col);
       const indexBot = (historyTab.filter(cell => cell.toString() === bot.toString())).length;
       if (indexBot === 0) {
-        validTab.push(new CellCheck(bot, 'bot'));
+        validTab.push(new CellCheck(bot,  Position.Bot));
       }
     }
     return validTab;
@@ -202,13 +202,13 @@ export class MainComponent implements OnInit {
   openWall(nextCell, currentCell) {
     // Remove the border given which direction
     const newCell = document.getElementById('cell' + nextCell.cell.toString());
-    if (nextCell.position === 'top') {
+    if (nextCell.position === Position.Top) {
       currentCell.style.borderTop = '0';
       newCell.style.borderBottom = '0';
-    } else if (nextCell.position === 'right') {
+    } else if (nextCell.position === Position.Right) {
       currentCell.style.borderRight = '0';
       newCell.style.borderLeft = '0';
-    } else if (nextCell.position === 'left') {
+    } else if (nextCell.position === Position.Left) {
       currentCell.style.borderLeft = '0';
       newCell.style.borderRight = '0';
     } else {
@@ -218,6 +218,7 @@ export class MainComponent implements OnInit {
   }
 
   reset() {
+    this.clickedCell = [];
     this.tdStyle = {
       'border': '1px solid white',
       'background-color': ''
@@ -229,6 +230,90 @@ export class MainComponent implements OnInit {
   }
 
   cellClick(r,c) {
+    const newCell = new Cell(r,c);
+    const currentCell = this.clickedCell[this.clickedCell.length -1];
+    const alreadyClicked = this.clickedCell.filter(x => x.toString() === newCell.toString()).length !== 0;
+    // If empty, new game
+    if (this.clickedCell.length === 0) {
+      // Since new game, need start cell to be clicked
+      if (newCell.toString() === this.startCell.toString()) {
+        this.colorCell(newCell);
+      }
+    } else {
+      // If end end, swal for announcement + end function
+      if (newCell.toString() === this.endCell.toString()) {
+        // TODO Swal + return after click
+      } else if (newCell.toString() === currentCell.toString()) {
+        // If same cell, remove it
+        this.decolorCell(newCell);
+      } else if (!alreadyClicked) {
+        // Check if cell is adjacent
+        const position = this.checkAdjacent(currentCell, r, c);
+        // if adjacentCell not set, do nothing since not adjacent, otherwise check if the 2 cells
+        // are separated by a border
+        if (position !== null)
+        {
+          let haveBorder = this.checkBorder(position, newCell);
+          if (!haveBorder) {
+            this.colorCell(newCell);
+          }
+        }
+      }
+    }
+  }
 
+  checkAdjacent(currentCell, r, c){
+    const topCell = new Cell(r - 1, c);
+    const rightCell = new Cell(r, c + 1);
+    const leftCell = new Cell(r, c - 1);
+    const botCell = new Cell(r + 1, c);
+    let position: Position = null;
+    if (topCell.toString() === currentCell.toString()) {
+      position = Position.Top;
+    } else if (rightCell.toString() === currentCell.toString()) {
+      position = Position.Right;
+    } else if (leftCell.toString() === currentCell.toString()) {
+      position = Position.Left;
+    } else if (botCell.toString() === currentCell.toString()) {
+      position = Position.Bot;
+    }
+    return position;
+  }
+
+  checkBorder(positon: Position, newCell) {
+    const newCellDom = document.getElementById('cell' + newCell.toString());
+    let haveBorder = false;
+    // Check if the style is empty, because it's empty at first and we added
+    // the 0px border. So if it's not empty, it's because we removed the border
+    if (positon === Position.Top) {
+      if (newCellDom.style.borderTop === '') {
+        haveBorder = true;
+      }
+    } else if (positon === Position.Right) {
+      if (newCellDom.style.borderRight === '') {
+        haveBorder = true;
+      }
+    } else if (positon === Position.Left) {
+      if (newCellDom.style.borderLeft === '') {
+        haveBorder = true;
+      }
+    } else {
+      if (newCellDom.style.borderBottom === '') {
+        haveBorder = true;
+      }
+    }
+    return haveBorder;
+  }
+
+  colorCell(newCell) {
+    let newCellDom = document.getElementById('cell' + newCell.toString());
+    this.clickedCell.push(newCell);
+    newCellDom.style.backgroundColor = '#008ae6';
+  }
+
+  decolorCell(newCell) {
+    let newCellDom = document.getElementById('cell' + newCell.toString());
+    this.clickedCell.pop();
+    newCellDom.style.backgroundColor = '';
   }
 }
