@@ -124,8 +124,7 @@ export class MainComponent implements OnInit {
     //remove top border for the enter
     let startCell = document.getElementById('cell' + start.toString());
     startCell.style.borderTop = '5px dotted #cc5200';
-    this.currentCell = start;
-    this.lastCell = start;
+    this.startCell = start;
     let stack = [];
     let historyTab = [];
     stack.push(start);
@@ -230,31 +229,6 @@ export class MainComponent implements OnInit {
   }
 
   cellClick(r,c) {
-    let newCell = new Cell(r,c);
-    //Check if clicked cell is the end one
-    if (newCell.toString() === this.endCell.toString()) {
-      //TODO swal
-    } else {
-      //Check if clicked cell is same one or adjacent
-      const topCell = new Cell(r - 1, c);
-      const rightCell = new Cell(r, c + 1);
-      const leftCell = new Cell(r, c - 1);
-      const botCell = new Cell(r + 1, c);
-      const cToString = this.currentCell.toString();
-      if (newCell.toString() === cToString|| topCell.toString() === cToString || rightCell.toString() === cToString
-        || leftCell.toString() === cToString || botCell.toString() === cToString) {
-        let clickedCell = document.getElementById('cell' + newCell.toString());
-        //Check if cell was already clicked
-        if (clickedCell.style.backgroundColor != '') {
-          clickedCell.style.backgroundColor = '';
-          this.lastCell = this.currentCell;
-          this.currentCell = this.lastCell;
-        } else {
-          clickedCell.style.backgroundColor = '#008ae6';
-          this.lastCell = this.currentCell;
-          this.currentCell = newCell;
-        }
-      }
-    }
+
   }
 }
