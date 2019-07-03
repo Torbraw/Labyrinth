@@ -31,7 +31,7 @@ export class MainComponent implements OnInit {
 
   validInput($event: KeyboardEvent) {
     if ($event != null && $event.key === 'Enter') {
-      this.go();
+      this.go('');
     } else {
       const regex = '^[0-9]+$';
       const row = parseInt(this.nbRows, 10);
@@ -65,7 +65,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  async go() {
+  async go(input: string) {
     this.validInput(null);
     if (this.errorRow === '' && this.errorCol === '') {
       if (this.needReset) {
@@ -94,6 +94,9 @@ export class MainComponent implements OnInit {
       this.setTdStyle();
       await new Promise(resolve => setTimeout(resolve, 0));
       this.generateLab();
+      if (input === 'resolve') {
+        this.resolve();
+      }
       Swal.close();
       this.needReset = true;
     }
@@ -227,7 +230,22 @@ export class MainComponent implements OnInit {
   }
 
   resolve() {
+    const visitedCell = [];
+    const currentCell = this.startCell;
+    let cpt = 1;
+    visitedCell.push(currentCell);
+    this.colorCell(currentCell, '#b30000');
+    // Do while loop currentCell != endCell
+    // Check each adjacent cell if not in tab & doesn't have a border
+    // If no valid cell, decolor currentCell,  currentCell = visitedCell[cpt], cpt--
+    // Else Generate rnd number 0 - tab.length
+    // Chose one cell
+    // Color the cell, make it current, add it to tab, increment cpt
+    // End of loop, swal for win
 
+    // Other solution, don't color/decolor each time, but have another table for 'valid cell' and color it at end
+    // Don't decolor the cell but set another color so we can have a trace?
+    // Show the process to the user or wait that everything is finished?
   }
 
   cellClick(r, c) {
