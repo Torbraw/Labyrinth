@@ -34,8 +34,8 @@ export class MainComponent implements OnInit {
       this.go();
     } else {
       const regex = '^[0-9]+$';
-      const row = parseInt(this.nbRows);
-      const col = parseInt(this.nbCols);
+      const row = parseInt(this.nbRows, 10);
+      const col = parseInt(this.nbCols, 10);
 
       if (!this.nbRows.match(regex)) {
         this.errorRow = this.translate.instant('input.warning');
@@ -71,8 +71,8 @@ export class MainComponent implements OnInit {
       if (this.needReset) {
         this.reset();
       }
-      this.rowArray = new Array(parseInt(this.nbRows));
-      this.colArray = new Array(parseInt(this.nbCols));
+      this.rowArray = new Array(parseInt(this.nbRows, 10));
+      this.colArray = new Array(parseInt(this.nbCols, 10));
       Swal.fire({
         title: this.translate.instant('swal.waitTitle'),
         text: this.translate.instant('swal.waitText'),
@@ -103,11 +103,11 @@ export class MainComponent implements OnInit {
     let height = '25px';
     let width = '25px';
 
-    if (parseInt(this.nbRows) > 55 || parseInt(this.nbCols) > 55) {
+    if (parseInt(this.nbRows, 10) > 55 || parseInt(this.nbCols, 10) > 55) {
       height = '20px';
       width = '20px';
     }
-    if (parseInt(this.nbRows) > 80 || parseInt(this.nbCols) > 80) {
+    if (parseInt(this.nbRows, 10) > 80 || parseInt(this.nbCols, 10) > 80) {
       height = '15px';
       width = '15px';
     }
@@ -120,7 +120,7 @@ export class MainComponent implements OnInit {
 
   generateLab() {
     // Generate the lab
-    const s = Math.floor(Math.random() * (parseInt(this.nbCols) - 1) + 1);
+    const s = Math.floor(Math.random() * (parseInt(this.nbCols, 10) - 1) + 1);
     const start: Cell = new Cell(0, s);
     // remove top border for the enter
     const startCell = document.getElementById('cell' + start.toString());
@@ -157,8 +157,8 @@ export class MainComponent implements OnInit {
       }
     }
     // Remove bot border for the end
-    const e = Math.floor(Math.random() * (parseInt(this.nbCols) - 1) + 1);
-    this.endCell = new Cell(parseInt(this.nbRows) - 1, e);
+    const e = Math.floor(Math.random() * (parseInt(this.nbCols, 10) - 1) + 1);
+    this.endCell = new Cell(parseInt(this.nbRows, 10) - 1, e);
     const endCell = document.getElementById('cell' + this.endCell.toString());
     endCell.style.borderBottom = '5px dotted #b82e8a';
   }
@@ -174,7 +174,7 @@ export class MainComponent implements OnInit {
       }
     }
     // check right
-    if (col < parseInt(this.nbCols) - 1) {
+    if (col < parseInt(this.nbCols, 10) - 1) {
       const right = new Cell(row, (col + 1));
       const indexRight = (historyTab.filter(cell => cell.toString() === right.toString())).length;
       if (indexRight === 0) {
@@ -190,7 +190,7 @@ export class MainComponent implements OnInit {
       }
     }
     // check bot
-    if (row < parseInt(this.nbRows) - 1) {
+    if (row < parseInt(this.nbRows, 10) - 1) {
       const bot = new Cell((row + 1), col);
       const indexBot = (historyTab.filter(cell => cell.toString() === bot.toString())).length;
       if (indexBot === 0) {
