@@ -20,7 +20,7 @@ export class MainComponent implements OnInit {
   colArray = [];
   tdStyle;
   needReset = false;
-  clickedCell : Cell[] = [];
+  clickedCell: Cell[] = [];
   startCell: Cell;
   endCell: Cell;
 
@@ -81,6 +81,7 @@ export class MainComponent implements OnInit {
         customClass: {
           title: 'swal_title'
         },
+        allowOutsideClick: false,
         allowEnterKey: false,
         allowEscapeKey: false,
         onBeforeOpen: () => {
@@ -118,15 +119,15 @@ export class MainComponent implements OnInit {
   }
 
   generateLab() {
-    //Generate the lab
-    let s = Math.floor(Math.random() * (parseInt(this.nbCols) - 1) + 1);
-    let start: Cell = new Cell(0,s);
-    //remove top border for the enter
-    let startCell = document.getElementById('cell' + start.toString());
+    // Generate the lab
+    const s = Math.floor(Math.random() * (parseInt(this.nbCols) - 1) + 1);
+    const start: Cell = new Cell(0, s);
+    // remove top border for the enter
+    const startCell = document.getElementById('cell' + start.toString());
     startCell.style.borderTop = '5px dotted #cc5200';
     this.startCell = start;
-    let stack = [];
-    let historyTab = [];
+    const stack = [];
+    const historyTab = [];
     stack.push(start);
     historyTab.push(start);
     let current: Cell = new Cell(-1, -1);
@@ -155,10 +156,10 @@ export class MainComponent implements OnInit {
         stack.push(current);
       }
     }
-    //Remove bot border for the end
-    let e = Math.floor(Math.random() * (parseInt(this.nbCols) - 1) + 1);
-    this.endCell = new Cell(parseInt(this.nbRows) -1,e);
-    let endCell = document.getElementById('cell' + this.endCell.toString());
+    // Remove bot border for the end
+    const e = Math.floor(Math.random() * (parseInt(this.nbCols) - 1) + 1);
+    this.endCell = new Cell(parseInt(this.nbRows) - 1, e);
+    const endCell = document.getElementById('cell' + this.endCell.toString());
     endCell.style.borderBottom = '5px dotted #b82e8a';
   }
 
@@ -229,20 +230,28 @@ export class MainComponent implements OnInit {
 
   }
 
-  cellClick(r,c) {
-    const newCell = new Cell(r,c);
-    const currentCell = this.clickedCell[this.clickedCell.length -1];
+  cellClick(r, c) {
+    const newCell = new Cell(r, c);
+    const currentCell = this.clickedCell[this.clickedCell.length - 1];
     const alreadyClicked = this.clickedCell.filter(x => x.toString() === newCell.toString()).length !== 0;
     // If empty, new game
     if (this.clickedCell.length === 0) {
       // Since new game, need start cell to be clicked
       if (newCell.toString() === this.startCell.toString()) {
-        this.colorCell(newCell);
+        this.colorCell(newCell, '#008ae6');
       }
     } else {
-      // If end end, swal for announcement + end function
+      // If end end, color cell + swal for announcement
       if (newCell.toString() === this.endCell.toString()) {
-        // TODO Swal + return after click
+        this.colorCell(newCell, '#008ae6');
+        Swal.fire({
+          title: this.translate.instant('swal.endTitle'),
+          text: this.translate.instant('swal.endText'),
+          type: 'success',
+          customClass: {
+            title: 'swal_title'
+          },
+        });
       } else if (newCell.toString() === currentCell.toString()) {
         // If same cell, remove it
         this.decolorCell(newCell);
@@ -251,18 +260,17 @@ export class MainComponent implements OnInit {
         const position = this.checkAdjacent(currentCell, r, c);
         // if adjacentCell not set, do nothing since not adjacent, otherwise check if the 2 cells
         // are separated by a border
-        if (position !== null)
-        {
-          let haveBorder = this.checkBorder(position, newCell);
+        if (position !== null) {
+          const haveBorder = this.checkBorder(position, newCell);
           if (!haveBorder) {
-            this.colorCell(newCell);
+            this.colorCell(newCell, '#008ae6');
           }
         }
       }
     }
   }
 
-  checkAdjacent(currentCell, r, c){
+  checkAdjacent(currentCell, r, c) {
     const topCell = new Cell(r - 1, c);
     const rightCell = new Cell(r, c + 1);
     const leftCell = new Cell(r, c - 1);
@@ -305,14 +313,14 @@ export class MainComponent implements OnInit {
     return haveBorder;
   }
 
-  colorCell(newCell) {
-    let newCellDom = document.getElementById('cell' + newCell.toString());
+  colorCell(newCell, color) {
+    const newCellDom = document.getElementById('cell' + newCell.toString());
     this.clickedCell.push(newCell);
-    newCellDom.style.backgroundColor = '#008ae6';
+    newCellDom.style.backgroundColor = color;
   }
 
   decolorCell(newCell) {
-    let newCellDom = document.getElementById('cell' + newCell.toString());
+    const newCellDom = document.getElementById('cell' + newCell.toString());
     this.clickedCell.pop();
     newCellDom.style.backgroundColor = '';
   }

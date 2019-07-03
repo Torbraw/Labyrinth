@@ -10,7 +10,9 @@
   },
   "swal":{
     "waitTitle": "Please wait",
-    "waitText": "The labyrinth is being generated"
+    "waitText": "The labyrinth is being generated",
+    "endTitle": "Congratulations!",
+    "endText": "You found the exit!"
   },
   "legend": {
     "title": "Legend",

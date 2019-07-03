@@ -10,7 +10,9 @@
   },
   "swal":{
     "waitTitle": "Veuillez patienter",
-    "waitText": "Le labyrinthe est en train d'être généré"
+    "waitText": "Le labyrinthe est en train d'être généré",
+    "endTitle": "Bravo!",
+    "endText": "Vous avez trouvé la sortie!"
   },
   "legend": {
     "title": "Légende",
