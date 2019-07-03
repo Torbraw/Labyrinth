@@ -81,7 +81,7 @@ export class MainComponent implements OnInit {
         customClass: {
           title: 'swal_title'
         },
-        allowOutsideClick: false,
+        // allowOutsideClick: false,
         allowEnterKey: false,
         allowEscapeKey: false,
         onBeforeOpen: () => {
@@ -231,21 +231,71 @@ export class MainComponent implements OnInit {
 
   resolve() {
     const visitedCell = [];
-    const currentCell = this.startCell;
-    let cpt = 1;
+    let currentCell = this.startCell;
+    let cpt = 0;
     visitedCell.push(currentCell);
     this.colorCell(currentCell, '#b30000');
-    // Do while loop currentCell != endCell
-    // Check each adjacent cell if not in tab & doesn't have a border
-    // If no valid cell, decolor currentCell,  currentCell = visitedCell[cpt], cpt--
-    // Else Generate rnd number 0 - tab.length
-    // Chose one cell
-    // Color the cell, make it current, add it to tab, increment cpt
-    // End of loop, swal for win
+    while (currentCell.toString() !== this.endCell.toString()) {
+      const validTab = this.checkCellsResolve(currentCell, visitedCell);
+      // If empty, go back
+      if (validTab.length === 0) {
+        this.decolorCell(currentCell);
+        currentCell = visitedCell[cpt];
+        cpt--;
+      } else {
+        // Choose a random cell
+        const i = Math.floor(Math.random() * validTab.length);
+        currentCell = validTab[i];
+        visitedCell.push(currentCell);
+        this.colorCell(currentCell, '#b30000');
+        cpt ++;
+      }
+    }
+    // TODO SWAL for win
 
     // Other solution, don't color/decolor each time, but have another table for 'valid cell' and color it at end
     // Don't decolor the cell but set another color so we can have a trace?
     // Show the process to the user or wait that everything is finished?
+  }
+
+  checkCellsResolve(currentCell: Cell, visitedCell) {
+    const r = currentCell.row;
+    const c = currentCell.col;
+    const topCell = new Cell(r - 1, c);
+    const rightCell = new Cell(r, c + 1);
+    const leftCell = new Cell(r, c - 1);
+    const botCell = new Cell(r + 1, c);
+    const validTab = [];
+
+    // Check if topCell is valid & not already been visited
+    if (topCell.row >= 0 && visitedCell.filter(x => x.toString() === topCell.toString()).length === 0) {
+      // Check if no border
+      if (!this.checkBorder(Position.Top, currentCell)) {
+        validTab.push(topCell);
+      }
+    }
+    // Check if rightCell is valid & not already been visited
+    if (rightCell.col < parseInt(this.nbCols, 10) && visitedCell.filter(x => x.toString() === rightCell.toString()).length === 0) {
+      // Check if no border
+      if (!this.checkBorder(Position.Right, currentCell)) {
+        validTab.push(rightCell);
+      }
+    }
+    // Check if leftCell is valid & not already been visited
+    if (leftCell.row >= 0 && visitedCell.filter(x => x.toString() === leftCell.toString()).length === 0) {
+      // Check if no border
+      if (!this.checkBorder(Position.Left, currentCell)) {
+        validTab.push(leftCell);
+      }
+    }
+    // Check if botCell is valid & not already been visited
+    if (botCell.row < parseInt(this.nbRows, 10) && visitedCell.filter(x => x.toString() === botCell.toString()).length === 0) {
+      // Check if no border
+      if (!this.checkBorder(Position.Bot, currentCell)) {
+        validTab.push(botCell);
+      }
+    }
+    return validTab;
   }
 
   cellClick(r, c) {
