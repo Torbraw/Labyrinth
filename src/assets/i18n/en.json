@@ -6,13 +6,15 @@
     "row": "Number of rows",
     "col": "Number of columns",
     "warning": "Only number, minimum 10, maximum 100.",
-    "resolve": "Resolve"
+    "resolve": "Resolve",
+    "tick": "Bot interval",
+    "warningTick": "Only number, minimum 0, maximum 200."
   },
   "swal":{
     "waitTitle": "Please wait",
     "waitText": "The labyrinth is being generated",
     "endTitle": "Congratulations!",
-    "endText": "You found the exit!"
+    "endText": "You have found the exit!"
   },
   "legend": {
     "title": "Legend",
@@ -20,5 +22,10 @@
     "end": "End:",
     "bot": "Bot:",
     "user": "User:"
+  },
+  "info": {
+    "title": "Web site that generate a random labyrinth of 10x10 to 100x100",
+    "body": "You can resolve the labyrinth yourself by clicking \"Go\" or let the bot do it by clicking \"Resolve\". For the bot, you can set an time interval to see where the bot goes.",
+    "disclaimer": "PS: Putting high number for labyrinth size or interval can greatly augment generation time. Also, the bot don't always find the best way, he just ends the level."
   }
 }

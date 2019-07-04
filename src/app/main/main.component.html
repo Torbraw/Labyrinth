@@ -2,17 +2,24 @@
 <div id="main">
   <div id="container">
     <div id="info" class="w3-text-white">
-      <p>Simple WebSite to generate a random labyrinth given the number of row/column the user enter. Warning, high number can take longer</p>
+      <p class="w3-large">{{'info.title' | translate}}</p>
+      <p>{{'info.body' | translate}}</p>
+      <p class="w3-small w3-text-orange">{{'info.disclaimer' | translate}}</p>
       <div id="input" class="w3-row">
-        <div class="w3-col l6 m6 s6">
+        <div class="w3-col l4 m4 s4">
           <label>{{'input.row' | translate}}</label>
-          <input [min]="10" [max]="100" [(ngModel)]="nbRows" class="w3-input" (keyup)="validInput($event)">
+          <input [(ngModel)]="nbRows" class="w3-input" (keyup)="validInput($event)">
           <span class="w3-small w3-text-red">{{errorRow}}</span>
         </div>
-        <div class="w3-col l6 m6 s6">
+        <div class="w3-col l4 m4 s4">
           <label>{{'input.col' | translate}}</label>
-          <input [min]="10" [max]="100" [(ngModel)]="nbCols" class="w3-input" (keyup)="validInput($event)">
+          <input [(ngModel)]="nbCols" class="w3-input" (keyup)="validInput($event)">
           <span class="w3-small w3-text-red">{{errorCol}}</span>
+        </div>
+        <div class="w3-col l4 m4 s4">
+          <label>{{'input.tick' | translate}}</label>
+          <input [(ngModel)]="tick" class="w3-input" (keyup)="validInput($event)">
+          <span class="w3-small w3-text-red">{{errorTick}}</span>
         </div>
       </div>
       <div>

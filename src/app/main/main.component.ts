@@ -14,8 +14,10 @@ export class MainComponent implements OnInit {
 
   nbRows = '10';
   nbCols = '10';
+  tick = '';
   errorRow = '';
   errorCol = '';
+  errorTick = '';
   rowArray = [];
   colArray = [];
   tdStyle;
@@ -36,6 +38,7 @@ export class MainComponent implements OnInit {
       const regex = '^[0-9]+$';
       const row = parseInt(this.nbRows, 10);
       const col = parseInt(this.nbCols, 10);
+      const tick = parseInt(this.tick, 10);
 
       if (!this.nbRows.match(regex)) {
         this.errorRow = this.translate.instant('input.warning');
@@ -62,12 +65,25 @@ export class MainComponent implements OnInit {
           this.errorCol = '';
         }
       }
+
+      if (this.tick != '' && !this.tick.match(regex)) {
+        this.errorTick = this.translate.instant('input.warningTick');
+      } else {
+        this.errorTick = '';
+        if (tick < 0) {
+          this.errorTick = this.translate.instant('input.warningTick');
+        } else if (tick > 200) {
+          this.errorTick = this.translate.instant('input.warningTick');
+        } else {
+          this.errorTick = '';
+        }
+      }
     }
   }
 
   async go(input: string) {
     this.validInput(null);
-    if (this.errorRow === '' && this.errorCol === '') {
+    if (this.errorRow === '' && this.errorCol === '' && this.errorTick === '') {
       if (this.needReset) {
         this.reset();
       }
@@ -81,7 +97,7 @@ export class MainComponent implements OnInit {
         customClass: {
           title: 'swal_title'
         },
-        // allowOutsideClick: false,
+        allowOutsideClick: false,
         allowEnterKey: false,
         allowEscapeKey: false,
         onBeforeOpen: () => {
@@ -94,10 +110,12 @@ export class MainComponent implements OnInit {
       this.setTdStyle();
       await new Promise(resolve => setTimeout(resolve, 0));
       this.generateLab();
+      Swal.close();
       if (input === 'resolve') {
+        if (this.tick != '') {
+        }
         this.resolve();
       }
-      Swal.close();
       this.needReset = true;
     }
   }
@@ -229,33 +247,32 @@ export class MainComponent implements OnInit {
     };
   }
 
-  resolve() {
+  async resolve() {
     const visitedCell = [];
+    const tabCell = [];
     let currentCell = this.startCell;
-    let cpt = 0;
     visitedCell.push(currentCell);
     this.colorCell(currentCell, '#b30000');
     while (currentCell.toString() !== this.endCell.toString()) {
+      // If tick is set, do it
+      if (this.tick != '') {
+        await new Promise(resolve => setTimeout(resolve, parseInt(this.tick, 10)));
+      }
       const validTab = this.checkCellsResolve(currentCell, visitedCell);
       // If empty, go back
       if (validTab.length === 0) {
         this.decolorCell(currentCell);
-        currentCell = visitedCell[cpt];
-        cpt--;
+        tabCell.pop();
+        currentCell = tabCell[tabCell.length - 1];
       } else {
         // Choose a random cell
         const i = Math.floor(Math.random() * validTab.length);
         currentCell = validTab[i];
         visitedCell.push(currentCell);
+        tabCell.push(currentCell);
         this.colorCell(currentCell, '#b30000');
-        cpt ++;
       }
     }
-    // TODO SWAL for win
-
-    // Other solution, don't color/decolor each time, but have another table for 'valid cell' and color it at end
-    // Don't decolor the cell but set another color so we can have a trace?
-    // Show the process to the user or wait that everything is finished?
   }
 
   checkCellsResolve(currentCell: Cell, visitedCell) {
@@ -282,7 +299,7 @@ export class MainComponent implements OnInit {
       }
     }
     // Check if leftCell is valid & not already been visited
-    if (leftCell.row >= 0 && visitedCell.filter(x => x.toString() === leftCell.toString()).length === 0) {
+    if (leftCell.col >= 0 && visitedCell.filter(x => x.toString() === leftCell.toString()).length === 0) {
       // Check if no border
       if (!this.checkBorder(Position.Left, currentCell)) {
         validTab.push(leftCell);
