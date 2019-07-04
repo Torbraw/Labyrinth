@@ -22,6 +22,7 @@ export class MainComponent implements OnInit {
   colArray = [];
   tdStyle;
   needReset = false;
+  isResolved = false;
   clickedCell: Cell[] = [];
   startCell: Cell;
   endCell: Cell;
@@ -33,7 +34,7 @@ export class MainComponent implements OnInit {
 
   validInput($event: KeyboardEvent) {
     if ($event != null && $event.key === 'Enter') {
-      this.go('');
+      this.go();
     } else {
       const regex = '^[0-9]+$';
       const row = parseInt(this.nbRows, 10);
@@ -66,7 +67,7 @@ export class MainComponent implements OnInit {
         }
       }
 
-      if (this.tick != '' && !this.tick.match(regex)) {
+      if (this.tick !== '' && !this.tick.match(regex)) {
         this.errorTick = this.translate.instant('input.warningTick');
       } else {
         this.errorTick = '';
@@ -81,7 +82,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  async go(input: string) {
+  async go() {
     this.validInput(null);
     if (this.errorRow === '' && this.errorCol === '' && this.errorTick === '') {
       if (this.needReset) {
@@ -111,11 +112,6 @@ export class MainComponent implements OnInit {
       await new Promise(resolve => setTimeout(resolve, 0));
       this.generateLab();
       Swal.close();
-      if (input === 'resolve') {
-        if (this.tick != '') {
-        }
-        this.resolve();
-      }
       this.needReset = true;
     }
   }
@@ -239,8 +235,16 @@ export class MainComponent implements OnInit {
     }
   }
 
+ resetClick() {
+    // TODO check why don't reset second time
+    this.clickedCell = [];
+    this.isResolved = false;
+    this.tdStyle['background-color'] = '';
+  }
+
   reset() {
     this.clickedCell = [];
+    this.isResolved = false;
     this.tdStyle = {
       'border': '1px solid white',
       'background-color': ''
@@ -248,30 +252,37 @@ export class MainComponent implements OnInit {
   }
 
   async resolve() {
-    const visitedCell = [];
-    const tabCell = [];
-    let currentCell = this.startCell;
-    visitedCell.push(currentCell);
-    this.colorCell(currentCell, '#b30000');
-    while (currentCell.toString() !== this.endCell.toString()) {
-      // If tick is set, do it
-      if (this.tick != '') {
-        await new Promise(resolve => setTimeout(resolve, parseInt(this.tick, 10)));
+    // If needReset is false, labyrinth didn't get generated, so warn the user
+    // Also check if lab isn't already resolved
+    if (this.needReset === false && this.isResolved !== false) {
+      // TODO add swal to warn user
+    } else {
+      const visitedCell = [];
+      const tabCell = [];
+      let currentCell = this.startCell;
+      visitedCell.push(currentCell);
+      this.colorCell(currentCell, '#b30000');
+      while (currentCell.toString() !== this.endCell.toString()) {
+        // If tick is set, do it
+        if (this.tick !== '') {
+          await new Promise(resolve => setTimeout(resolve, parseInt(this.tick, 10)));
+        }
+        const validTab = this.checkCellsResolve(currentCell, visitedCell);
+        // If empty, go back
+        if (validTab.length === 0) {
+          this.decolorCell(currentCell);
+          tabCell.pop();
+          currentCell = tabCell[tabCell.length - 1];
+        } else {
+          // Choose a random cell
+          const i = Math.floor(Math.random() * validTab.length);
+          currentCell = validTab[i];
+          visitedCell.push(currentCell);
+          tabCell.push(currentCell);
+          this.colorCell(currentCell, '#b30000');
+        }
       }
-      const validTab = this.checkCellsResolve(currentCell, visitedCell);
-      // If empty, go back
-      if (validTab.length === 0) {
-        this.decolorCell(currentCell);
-        tabCell.pop();
-        currentCell = tabCell[tabCell.length - 1];
-      } else {
-        // Choose a random cell
-        const i = Math.floor(Math.random() * validTab.length);
-        currentCell = validTab[i];
-        visitedCell.push(currentCell);
-        tabCell.push(currentCell);
-        this.colorCell(currentCell, '#b30000');
-      }
+      this.isResolved = true;
     }
   }
 

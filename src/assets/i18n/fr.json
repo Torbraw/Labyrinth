@@ -8,7 +8,8 @@
     "warning": "Seulement des chiffres, minimum 10, maximum 100.",
     "resolve": "Résoudre",
     "tick": "Interval du robot",
-    "warningTick": "Seulement des chiffres, minimum 0, maximum 200."
+    "warningTick": "Seulement des chiffres, minimum 0, maximum 200.",
+    "reset": "Réinitialiser"
   },
   "swal":{
     "waitTitle": "Veuillez patienter",

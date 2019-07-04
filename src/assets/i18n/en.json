@@ -8,7 +8,8 @@
     "warning": "Only number, minimum 10, maximum 100.",
     "resolve": "Resolve",
     "tick": "Bot interval",
-    "warningTick": "Only number, minimum 0, maximum 200."
+    "warningTick": "Only number, minimum 0, maximum 200.",
+    "reset": "Reset"
   },
   "swal":{
     "waitTitle": "Please wait",

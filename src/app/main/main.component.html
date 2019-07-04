@@ -24,7 +24,8 @@
       </div>
       <div>
         <button class="w3-button w3-right w3-round-medium inputButton" (click)="go('')">Go</button>
-        <button class="w3-button w3-right w3-round-medium inputButton" (click)="go('resolve')">{{'input.resolve' | translate}}</button>
+        <button class="w3-button w3-right w3-round-medium inputButton" (click)="resolve()">{{'input.resolve' | translate}}</button>
+        <button class="w3-button w3-right w3-round-medium inputButton" (click)="resetClick()">{{'input.reset' | translate}}</button>
       </div>
     </div>
     <div id="tableDiv" class="w3-hide-small">
