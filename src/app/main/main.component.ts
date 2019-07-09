@@ -29,10 +29,13 @@ export class MainComponent implements OnInit {
   startCell: Cell;
   endCell: Cell;
   widthError = '';
+  year;
 
   constructor(private translate: TranslateService) { }
 
   ngOnInit() {
+    const currentDate = new Date();
+    this.year = currentDate.getFullYear();
   }
 
   validInput($event: KeyboardEvent) {

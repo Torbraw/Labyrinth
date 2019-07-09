@@ -65,6 +65,17 @@ td {
 #legend .w3-row {
   padding-bottom: 8px;
 }
+#footer {
+  padding-bottom: 20px;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  bottom: 0;
+}
+#link {
+  margin-bottom: 16px;
+}
 @media screen and (max-width:992px) {
   #input div:last-child {
     padding-left: 0;
