@@ -9,13 +9,15 @@
     "resolve": "Résoudre",
     "tick": "Interval du robot",
     "warningTick": "Seulement des chiffres, minimum 0, maximum 200.",
-    "reset": "Réinitialiser"
+    "reset": "Réinitialiser",
+    "generate": "Générer"
   },
   "swal":{
     "waitTitle": "Veuillez patienter",
     "waitText": "Le labyrinthe est en train d'être généré",
     "endTitle": "Bravo!",
-    "endText": "Vous avez trouvé la sortie!"
+    "endText": "Vous avez trouvé la sortie!",
+    "resolveTitle": "Veuillez générer le labyrinthe avant de le résoudre"
   },
   "legend": {
     "title": "Légende",
@@ -26,7 +28,8 @@
   },
   "info": {
     "title": "Site web qui permet de généner un labyrinthe aléatoire de taille 10x10 jusqu'à 100x100.",
-    "body": "Vous pouvez vous-même faire le labyrinthe en cliquant sur \"Go\" ou laisser le robot le faire en cliquant sur \"Résoudre\". Pour le robot, vous pouvez lui mettre un temps d'interval pour voir où le robot passe.",
-    "disclaimer": "PS: Mettre des chiffres élevée que ce soit pour la taille du labyrinthe ou l'interval peuvent grandement augmenter le temps de génération. De plus, le robot ne trouve pas toujours la route la plus simple, il finit juste le niveau."
+    "body": "Vous pouvez vous-même faire le labyrinthe en cliquant sur \"Générer\" ou laisser le robot le faire en cliquant sur \"Résoudre\". Pour le robot, vous pouvez lui mettre un temps d'interval pour voir où le robot passe.",
+    "disclaimer": "PS: Mettre des chiffres élevée que ce soit pour la taille du labyrinthe ou l'interval peuvent grandement augmenter le temps de génération. De plus, le robot ne trouve pas toujours la route la plus simple, il finit juste le niveau.",
+    "widthError": "ATTENTION: Une petite résolution n'est pas recommandé pour générer de gros labyrinthe."
   }
 }

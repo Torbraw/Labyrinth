@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import {Cell} from '../models/cell';
@@ -21,11 +21,14 @@ export class MainComponent implements OnInit {
   rowArray = [];
   colArray = [];
   tdStyle;
+  needHardReset = false;
   needReset = false;
+  isGenerated = false;
   isResolved = false;
   clickedCell: Cell[] = [];
   startCell: Cell;
   endCell: Cell;
+  widthError = '';
 
   constructor(private translate: TranslateService) { }
 
@@ -34,7 +37,7 @@ export class MainComponent implements OnInit {
 
   validInput($event: KeyboardEvent) {
     if ($event != null && $event.key === 'Enter') {
-      this.go();
+      this.generate();
     } else {
       const regex = '^[0-9]+$';
       const row = parseInt(this.nbRows, 10);
@@ -82,10 +85,10 @@ export class MainComponent implements OnInit {
     }
   }
 
-  async go() {
+  async generate() {
     this.validInput(null);
     if (this.errorRow === '' && this.errorCol === '' && this.errorTick === '') {
-      if (this.needReset) {
+      if (this.needHardReset) {
         this.reset();
       }
       this.rowArray = new Array(parseInt(this.nbRows, 10));
@@ -112,7 +115,6 @@ export class MainComponent implements OnInit {
       await new Promise(resolve => setTimeout(resolve, 0));
       this.generateLab();
       Swal.close();
-      this.needReset = true;
     }
   }
 
@@ -178,6 +180,8 @@ export class MainComponent implements OnInit {
     this.endCell = new Cell(parseInt(this.nbRows, 10) - 1, e);
     const endCell = document.getElementById('cell' + this.endCell.toString());
     endCell.style.borderBottom = '5px dotted #b82e8a';
+    this.isGenerated = true;
+    this.needHardReset = true;
   }
 
   checkCells(row, col, historyTab) {
@@ -235,11 +239,17 @@ export class MainComponent implements OnInit {
     }
   }
 
- resetClick() {
-    // TODO check why don't reset second time
-    this.clickedCell = [];
-    this.isResolved = false;
-    this.tdStyle['background-color'] = '';
+  resetClick() {
+    if (this.needReset) {
+      this.clickedCell = [];
+      this.isResolved = false;
+      // Alternating because if we set the same one, it doesn't update
+      if (this.tdStyle['background-color'] === '') {
+        this.tdStyle['background-color'] = '#2a2a2a';
+      } else {
+        this.tdStyle['background-color'] = '';
+      }
+    }
   }
 
   reset() {
@@ -252,36 +262,45 @@ export class MainComponent implements OnInit {
   }
 
   async resolve() {
-    // If needReset is false, labyrinth didn't get generated, so warn the user
-    // Also check if lab isn't already resolved
-    if (this.needReset === false && this.isResolved !== false) {
-      // TODO add swal to warn user
+    // If isGenerated is false, labyrinth didn't get generated, so warn the user
+    if (this.isGenerated === false) {
+      Swal.fire({
+        title: this.translate.instant('swal.resolveTitle'),
+        type: 'warning',
+        customClass: {
+          title: 'swal_title'
+        },
+      });
     } else {
-      const visitedCell = [];
-      const tabCell = [];
-      let currentCell = this.startCell;
-      visitedCell.push(currentCell);
-      this.colorCell(currentCell, '#b30000');
-      while (currentCell.toString() !== this.endCell.toString()) {
-        // If tick is set, do it
-        if (this.tick !== '') {
-          await new Promise(resolve => setTimeout(resolve, parseInt(this.tick, 10)));
-        }
-        const validTab = this.checkCellsResolve(currentCell, visitedCell);
-        // If empty, go back
-        if (validTab.length === 0) {
-          this.decolorCell(currentCell);
-          tabCell.pop();
-          currentCell = tabCell[tabCell.length - 1];
-        } else {
-          // Choose a random cell
-          const i = Math.floor(Math.random() * validTab.length);
-          currentCell = validTab[i];
-          visitedCell.push(currentCell);
-          tabCell.push(currentCell);
-          this.colorCell(currentCell, '#b30000');
+      // If it's already resolved, don't redo it
+      if (this.isResolved === false) {
+        const visitedCell = [];
+        const tabCell = [];
+        let currentCell = this.startCell;
+        visitedCell.push(currentCell);
+        this.colorCell(currentCell, '#b30000');
+        while (currentCell.toString() !== this.endCell.toString()) {
+          // If tick is set, do it
+          if (this.tick !== '') {
+            await new Promise(resolve => setTimeout(resolve, parseInt(this.tick, 10)));
+          }
+          const validTab = this.checkCellsResolve(currentCell, visitedCell);
+          // If empty, go back
+          if (validTab.length === 0) {
+            this.decolorCell(currentCell);
+            tabCell.pop();
+            currentCell = tabCell[tabCell.length - 1];
+          } else {
+            // Choose a random cell
+            const i = Math.floor(Math.random() * validTab.length);
+            currentCell = validTab[i];
+            visitedCell.push(currentCell);
+            tabCell.push(currentCell);
+            this.colorCell(currentCell, '#b30000');
+          }
         }
       }
+      this.needReset = true;
       this.isResolved = true;
     }
   }
@@ -364,6 +383,7 @@ export class MainComponent implements OnInit {
         }
       }
     }
+    this.needReset = true;
   }
 
   checkAdjacent(currentCell, r, c) {
