@@ -10,4 +10,5 @@ https://www.w3schools.com/w3css/default.asp
 https://github.com/ngx-translate/core
 #### Sweetalert2
 https://sweetalert2.github.io/
-
+#### Typed.js
+https://github.com/mattboldt/typed.js/
