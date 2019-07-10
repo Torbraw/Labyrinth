@@ -28,7 +28,7 @@
   },
   "info": {
     "title": "Site web qui permet de généner un labyrinthe aléatoire de taille 10x10 jusqu'à 100x100.",
-    "body": "Vous pouvez vous-même faire le labyrinthe en cliquant sur \"Générer\" ou laisser le robot le faire en cliquant sur \"Résoudre\". Pour le robot, vous pouvez lui mettre un temps d'interval pour voir où le robot passe.",
+    "body": "Cliquer simplement sur \"Générer\" pour générer un labyrinthe et vous pouvez vous-même faire le labyrinthe en cliquant sur les cellules ou laisser le robot le faire en cliquant sur \"Résoudre\". Pour le robot, vous pouvez lui mettre un temps d'interval pour voir où le robot passe.",
     "disclaimer": "PS: Mettre des chiffres élevée que ce soit pour la taille du labyrinthe ou l'interval peuvent grandement augmenter le temps de génération. De plus, le robot ne trouve pas toujours la route la plus simple, il finit juste le niveau.",
     "widthError": "ATTENTION: Une petite résolution n'est pas recommandé pour générer de gros labyrinthe."
   }

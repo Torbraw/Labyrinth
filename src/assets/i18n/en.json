@@ -28,7 +28,7 @@
   },
   "info": {
     "title": "Web site that generate a random labyrinth of 10x10 to 100x100",
-    "body": "You can resolve the labyrinth yourself by clicking \"Generate\" or let the bot do it by clicking \"Resolve\". For the bot, you can set an time interval to see where the bot goes.",
+    "body": "Simply click \"Generate\" to generate a labyrinth and you can resolve the labyrinth yourself by clicking on the cells or let the bot do it by clicking \"Resolve\". For the bot, you can set an time interval to see where the bot goes.",
     "disclaimer": "PS: Putting high number for labyrinth size or interval can greatly augment generation time. Also, the bot don't always find the best way, he just ends the level.",
     "widthError": "WARNING: Small resolution is not great for generating large labyrinth."
   }
