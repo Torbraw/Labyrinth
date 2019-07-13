@@ -28,8 +28,8 @@ export class MainComponent implements OnInit {
   clickedCell: Cell[] = [];
   startCell: Cell;
   endCell: Cell;
-  widthError = '';
   year;
+  disableBtn = false;
 
   constructor(private translate: TranslateService) { }
 
@@ -265,6 +265,8 @@ export class MainComponent implements OnInit {
   }
 
   async resolve() {
+    // Deactivate the button
+    this.disableBtn = true;
     // If isGenerated is false, labyrinth didn't get generated, so warn the user
     if (this.isGenerated === false) {
       Swal.fire({
@@ -306,6 +308,8 @@ export class MainComponent implements OnInit {
       this.needReset = true;
       this.isResolved = true;
     }
+    // Re-activate the button
+    this.disableBtn = false;
   }
 
   checkCellsResolve(currentCell: Cell, visitedCell) {

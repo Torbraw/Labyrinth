@@ -24,14 +24,14 @@
         </div>
       </div>
       <div class="w3-hide-small">
-        <button class="w3-button w3-right w3-round-medium inputButton" (click)="generate()">{{'input.generate' | translate}}</button>
-        <button class="w3-button w3-right w3-round-medium inputButton" (click)="resolve()">{{'input.resolve' | translate}}</button>
-        <button class="w3-button w3-right w3-round-medium inputButton" (click)="resetClick()">{{'input.reset' | translate}}</button>
+        <button [disabled]="disableBtn" id="btnGenerate" class="w3-button w3-right w3-round-medium inputButton" (click)="generate()">{{'input.generate' | translate}}</button>
+        <button [disabled]="disableBtn" class="w3-button w3-right w3-round-medium inputButton" (click)="resolve()">{{'input.resolve' | translate}}</button>
+        <button [disabled]="disableBtn" class="w3-button w3-right w3-round-medium inputButton" (click)="resetClick()">{{'input.reset' | translate}}</button>
       </div>
       <div class="w3-row w3-hide-large w3-hide-medium">
-        <button class="w3-button w3-round-medium inputButton w3-col s12" (click)="generate()">{{'input.generate' | translate}}</button>
-        <button class="w3-button w3-round-medium inputButton w3-col s12" (click)="resolve()">{{'input.resolve' | translate}}</button>
-        <button class="w3-button w3-round-medium inputButton w3-col s12" (click)="resetClick()">{{'input.reset' | translate}}</button>
+        <button [disabled]="disableBtn" class="w3-button w3-round-medium inputButton w3-col s12" (click)="generate()">{{'input.generate' | translate}}</button>
+        <button [disabled]="disableBtn" class="w3-button w3-round-medium inputButton w3-col s12" (click)="resolve()">{{'input.resolve' | translate}}</button>
+        <button [disabled]="disableBtn" class="w3-button w3-round-medium inputButton w3-col s12" (click)="resetClick()">{{'input.reset' | translate}}</button>
       </div>
     </div>
     <div id="tableDiv">
