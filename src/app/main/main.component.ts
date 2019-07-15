@@ -40,7 +40,9 @@ export class MainComponent implements OnInit {
 
   validInput($event: KeyboardEvent) {
     if ($event != null && $event.key === 'Enter') {
-      this.generate();
+      if (!this.disableBtn) {
+        this.generate();
+      }
     } else {
       const regex = '^[0-9]+$';
       const row = parseInt(this.nbRows, 10);
