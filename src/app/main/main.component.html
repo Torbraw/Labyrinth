@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="w3-hide-small">
-        <button [disabled]="disableBtn" id="btnGenerate" class="w3-button w3-right w3-round-medium inputButton" (click)="generate()">{{'input.generate' | translate}}</button>
+        <button [disabled]="disableBtn" class="w3-button w3-right w3-round-medium inputButton" (click)="generate()">{{'input.generate' | translate}}</button>
         <button [disabled]="disableBtn" class="w3-button w3-right w3-round-medium inputButton" (click)="resolve()">{{'input.resolve' | translate}}</button>
         <button [disabled]="disableBtn" class="w3-button w3-right w3-round-medium inputButton" (click)="resetClick()">{{'input.reset' | translate}}</button>
       </div>
@@ -32,6 +32,8 @@
         <button [disabled]="disableBtn" class="w3-button w3-round-medium inputButton w3-col s12" (click)="generate()">{{'input.generate' | translate}}</button>
         <button [disabled]="disableBtn" class="w3-button w3-round-medium inputButton w3-col s12" (click)="resolve()">{{'input.resolve' | translate}}</button>
         <button [disabled]="disableBtn" class="w3-button w3-round-medium inputButton w3-col s12" (click)="resetClick()">{{'input.reset' | translate}}</button>
+        <button [disabled]="disableBtn" class="w3-button w3-round-medium inputButton w3-col s12" ngxPrint printSectionId="tableDiv"
+                [printStyle]="{td: {'border': '1px solid black'}, table: {'border-collapse': 'collapse'}}">{{'input.print' | translate}}</button>
       </div>
     </div>
     <div id="tableDiv">
@@ -43,6 +45,14 @@
       </table>
     </div>
     <div class="w3-text-white">
+      <div class="w3-hide-small">
+        <button [disabled]="printBtnDisabled" class="w3-button w3-right w3-round-medium inputButton" ngxPrint printSectionId="tableDiv"
+              [printStyle]="{td: {'border': '1px solid black'}, table: {'border-collapse': 'collapse'}}">{{'input.print' | translate}}</button>
+      </div>
+      <div class="w3-row w3-hide-large w3-hide-medium w3-margin-bottom">
+        <button [disabled]="printBtnDisabled" class="w3-button w3-round-medium inputButton w3-col s12" ngxPrint printSectionId="tableDiv"
+                [printStyle]="{td: {'border': '1px solid black'}, table: {'border-collapse': 'collapse'}}">{{'input.print' | translate}}</button>
+      </div>
       <div id="legend">
         <p class="w3-large">{{'legend.title' | translate}}</p>
         <div class="w3-row">

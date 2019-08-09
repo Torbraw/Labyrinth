@@ -5,11 +5,12 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HttpClient, } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { MainComponent } from './main/main.component';
-import {NavbarComponent} from './navbar/navbar.component';
+import { NavbarComponent } from './navbar/navbar.component';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { NgxPrintModule } from 'ngx-print';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -23,6 +24,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MainComponent
   ],
   imports: [
+    NgxPrintModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,

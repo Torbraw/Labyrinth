@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import {Cell} from '../models/cell';
@@ -30,6 +30,7 @@ export class MainComponent implements OnInit {
   endCell: Cell;
   year;
   disableBtn = false;
+  printBtnDisabled = true;
 
   constructor(private translate: TranslateService) { }
 
@@ -119,6 +120,7 @@ export class MainComponent implements OnInit {
       this.setTdStyle();
       await new Promise(resolve => setTimeout(resolve, 0));
       this.generateLab();
+      this.printBtnDisabled = false;
       Swal.close();
     }
   }
@@ -267,8 +269,9 @@ export class MainComponent implements OnInit {
   }
 
   async resolve() {
-    // Deactivate the button
+    // Deactivate the buttons
     this.disableBtn = true;
+    this.printBtnDisabled = true;
     // If isGenerated is false, labyrinth didn't get generated, so warn the user
     if (this.isGenerated === false) {
       Swal.fire({
@@ -310,8 +313,9 @@ export class MainComponent implements OnInit {
       this.needReset = true;
       this.isResolved = true;
     }
-    // Re-activate the button
+    // Re-activate the buttons
     this.disableBtn = false;
+    this.printBtnDisabled = false;
   }
 
   checkCellsResolve(currentCell: Cell, visitedCell) {

@@ -10,7 +10,8 @@
     "tick": "Interval du robot",
     "warningTick": "Seulement des chiffres, minimum 0, maximum 200.",
     "reset": "Réinitialiser",
-    "generate": "Générer"
+    "generate": "Générer",
+    "print": "Imprimer/Enregister"
   },
   "swal":{
     "waitTitle": "Veuillez patienter",

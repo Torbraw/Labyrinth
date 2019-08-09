@@ -10,7 +10,8 @@
     "tick": "Bot interval",
     "warningTick": "Only number, minimum 0, maximum 200.",
     "reset": "Reset",
-    "generate": "Generate"
+    "generate": "Generate",
+    "print": "Print/Save"
   },
   "swal":{
     "waitTitle": "Please wait",
