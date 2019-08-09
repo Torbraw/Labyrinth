@@ -1,9 +1,20 @@
-import {Component, OnInit} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  TranslateService
+} from '@ngx-translate/core';
 import Swal from 'sweetalert2';
-import {Cell} from '../models/cell';
-import {CellCheck} from '../models/cell-check';
-import {Position} from '../models/position.enum';
+import {
+  Cell
+} from '../models/cell';
+import {
+  CellCheck
+} from '../models/cell-check';
+import {
+  Position
+} from '../models/position.enum';
 
 @Component({
   selector: 'app-main',
@@ -31,8 +42,9 @@ export class MainComponent implements OnInit {
   year;
   disableBtn = false;
   printBtnDisabled = true;
+  currentClickedCell: Cell = null;
 
-  constructor(private translate: TranslateService) { }
+  constructor(private translate: TranslateService) {}
 
   ngOnInit() {
     const currentDate = new Date();
@@ -206,7 +218,7 @@ export class MainComponent implements OnInit {
       const right = new Cell(row, (col + 1));
       const indexRight = (historyTab.filter(cell => cell.toString() === right.toString())).length;
       if (indexRight === 0) {
-        validTab.push(new CellCheck(right,  Position.Right));
+        validTab.push(new CellCheck(right, Position.Right));
       }
     }
     // check left
@@ -214,7 +226,7 @@ export class MainComponent implements OnInit {
       const left = new Cell(row, (col - 1));
       const indexLeft = (historyTab.filter(cell => cell.toString() === left.toString())).length;
       if (indexLeft === 0) {
-        validTab.push(new CellCheck(left,  Position.Left));
+        validTab.push(new CellCheck(left, Position.Left));
       }
     }
     // check bot
@@ -222,7 +234,7 @@ export class MainComponent implements OnInit {
       const bot = new Cell((row + 1), col);
       const indexBot = (historyTab.filter(cell => cell.toString() === bot.toString())).length;
       if (indexBot === 0) {
-        validTab.push(new CellCheck(bot,  Position.Bot));
+        validTab.push(new CellCheck(bot, Position.Bot));
       }
     }
     return validTab;
@@ -380,6 +392,7 @@ export class MainComponent implements OnInit {
             title: 'swal_title'
           },
         });
+        return;
       } else if (newCell.toString() === currentCell.toString()) {
         // If same cell, remove it
         this.decolorCell(newCell);
@@ -400,10 +413,10 @@ export class MainComponent implements OnInit {
   }
 
   checkAdjacent(currentCell, r, c) {
-    const topCell = new Cell(r - 1, c);
-    const rightCell = new Cell(r, c + 1);
-    const leftCell = new Cell(r, c - 1);
-    const botCell = new Cell(r + 1, c);
+    const topCell = new Cell(+r - 1, c);
+    const rightCell = new Cell(r, +c + 1);
+    const leftCell = new Cell(r, +c - 1);
+    const botCell = new Cell(+r + 1, c);
     let position: Position = null;
     if (topCell.toString() === currentCell.toString()) {
       position = Position.Top;
@@ -417,20 +430,20 @@ export class MainComponent implements OnInit {
     return position;
   }
 
-  checkBorder(positon: Position, newCell) {
+  checkBorder(position: Position, newCell) {
     const newCellDom = document.getElementById('cell' + newCell.toString());
     let haveBorder = false;
     // Check if the style is empty, because it's empty at first and we added
     // the 0px border. So if it's not empty, it's because we removed the border
-    if (positon === Position.Top) {
+    if (position === Position.Top) {
       if (newCellDom.style.borderTop === '') {
         haveBorder = true;
       }
-    } else if (positon === Position.Right) {
+    } else if (position === Position.Right) {
       if (newCellDom.style.borderRight === '') {
         haveBorder = true;
       }
-    } else if (positon === Position.Left) {
+    } else if (position === Position.Left) {
       if (newCellDom.style.borderLeft === '') {
         haveBorder = true;
       }
@@ -452,5 +465,89 @@ export class MainComponent implements OnInit {
     const newCellDom = document.getElementById('cell' + newCell.toString());
     this.clickedCell.pop();
     newCellDom.style.backgroundColor = '';
+  }
+
+  mouseEvent(e) {
+    if (this.isResolved) {
+      return;
+    }
+    // First click
+    if (this.currentClickedCell == null) {
+      this.currentClickedCell = this.getCellByDocument(e);
+    } else {
+      // Second click
+      const secondCell = this.getCellByDocument(e);
+      // Check if same cell
+      if (secondCell.toString() === this.currentClickedCell.toString()) {
+        this.cellClick(this.currentClickedCell.row, +this.currentClickedCell.col);
+        this.currentClickedCell = null;
+        return;
+      }
+      let position;
+      let cpt = 0;
+      // Check if it's in the same line/column & which direction to check after
+      if (this.currentClickedCell.row === secondCell.row) {
+        if (secondCell.col > this.currentClickedCell.col) {
+          position = Position.Right;
+          cpt = secondCell.col - this.currentClickedCell.col;
+        } else {
+          position = Position.Left;
+          cpt = this.currentClickedCell.col - secondCell.col;
+        }
+      } else if (this.currentClickedCell.col === secondCell.col) {
+        if (secondCell.row > this.currentClickedCell.row) {
+          position = Position.Bot;
+          cpt = secondCell.row - this.currentClickedCell.row;
+        } else {
+          position = Position.Top;
+          cpt = this.currentClickedCell.row - secondCell.row;
+        }
+      }
+      if (position !== undefined && cpt !== 0) {
+        // Check if there's a border between the two cell
+        for (let i = 0; i < cpt; i++) {
+          if (this.checkBorderMouseDrag(position, i)) {
+            this.currentClickedCell = null;
+            return;
+          }
+        }
+        // Color all the cells
+        this.colorCellMouseDrag(cpt, position)
+      }
+      this.currentClickedCell = null;
+    }
+  }
+
+  getCellByDocument(document) {
+    const tabId = document.srcElement.id.substring(4, document.srcElement.id.length).split('.');
+    return new Cell(tabId[0], tabId[1]);
+  }
+
+  checkBorderMouseDrag(position, i) {
+    let result;
+    if (position === Position.Top) {
+      result = this.checkBorder(position, new Cell(+this.currentClickedCell.row - i, this.currentClickedCell.col));
+    } else if (position === Position.Right) {
+      result = this.checkBorder(position, new Cell(this.currentClickedCell.row, +this.currentClickedCell.col + i));
+    } else if (position === Position.Left) {
+      result = this.checkBorder(position, new Cell(this.currentClickedCell.row, +this.currentClickedCell.col - i));
+    } else {
+      result = this.checkBorder(position, new Cell(+this.currentClickedCell.row + i, this.currentClickedCell.col));
+    }
+    return result;
+  }
+
+  colorCellMouseDrag(cpt, position) {
+    for (let i = 0; i < cpt + 1; i++) {
+      if (position === Position.Top) {
+        this.cellClick(+this.currentClickedCell.row - i, this.currentClickedCell.col);
+      } else if (position === Position.Right) {
+        this.cellClick(this.currentClickedCell.row, +this.currentClickedCell.col + i);
+      } else if (position === Position.Left) {
+        this.cellClick(this.currentClickedCell.row, +this.currentClickedCell.col - i);
+      } else {
+        this.cellClick(+this.currentClickedCell.row + i, this.currentClickedCell.col);
+      }
+    }
   }
 }

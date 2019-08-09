@@ -1,6 +1,6 @@
 # Labyrinth
 A simple Web Site App that can generate labyrinth up to a 100x100 dimension and can resolve it automatically or the user can do it themself.
-A future improvement would be to allow the user to color a line of cell not just 1 by 1. We can even imagine some import/export. Who knows.
+Futures improvements would be ~~to be able to download the labyrinth to a pdf or something~~ (commit 9e468a4) & to allow the user to color a line of cell not just 1 by 1. We can even imagine some import/export. Who knows.
 
 #### Font-Awesome: 
 https://fontawesome.com

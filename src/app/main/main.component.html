@@ -35,9 +35,9 @@
       </div>
     </div>
     <div id="tableDiv">
-      <table>
+      <table (mousedown)="mouseEvent($event)" (mouseup)="mouseEvent($event)">
         <tr *ngFor="let row of rowArray; let r = index">
-          <td (click)="cellClick(r,c)" [ngStyle]="tdStyle" id="cell{{r}}.{{c}}" *ngFor="let col of colArray; let c = index">
+          <td [ngStyle]="tdStyle" id="cell{{r}}.{{c}}" *ngFor="let col of colArray; let c = index">
           </td>
         </tr>
       </table>
