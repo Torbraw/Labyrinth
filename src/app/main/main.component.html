@@ -32,8 +32,6 @@
         <button [disabled]="disableBtn" class="w3-button w3-round-medium inputButton w3-col s12" (click)="generate()">{{'input.generate' | translate}}</button>
         <button [disabled]="disableBtn" class="w3-button w3-round-medium inputButton w3-col s12" (click)="resolve()">{{'input.resolve' | translate}}</button>
         <button [disabled]="disableBtn" class="w3-button w3-round-medium inputButton w3-col s12" (click)="resetClick()">{{'input.reset' | translate}}</button>
-        <button [disabled]="disableBtn" class="w3-button w3-round-medium inputButton w3-col s12" ngxPrint printSectionId="tableDiv"
-                [printStyle]="{td: {'border': '1px solid black'}, table: {'border-collapse': 'collapse'}}">{{'input.print' | translate}}</button>
       </div>
     </div>
     <div id="tableDiv">
