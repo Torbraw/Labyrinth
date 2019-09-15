@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -11,6 +11,6 @@ export class ApiService {
 
   insertKpi() {
     const kpiObject = { 'subsiteName': environment.subsiteName };
-    this.http.post<any>(environment.webApiEndPoint, kpiObject);
+    this.http.post(environment.webApiEndPoint + environment.kpiEndPoint, kpiObject, { responseType: 'text' }).subscribe();
   }
 }

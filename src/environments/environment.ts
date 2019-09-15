@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   webApiEndPoint: 'http://localhost:3000/api/',
+  kpiEndPoint: 'kpi/',
   subsiteName: 'Labyrinth'
 };
 
