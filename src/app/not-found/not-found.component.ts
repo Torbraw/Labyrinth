@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Typed from 'typed.js';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-not-found',
@@ -8,9 +9,13 @@ import Typed from 'typed.js';
 })
 export class NotFoundComponent implements OnInit {
 
-  constructor() { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
+    // Call the KPI api
+    this.apiService.insertKpi();
+
+
     const typed = new Typed('.typed-element', {
       strings: ['<span class="orange">this</span>.<span class="purple">page</span>.<span class="purple">notFound</span> = <span class="orange">true;</span>'],
       typeSpeed: 20,

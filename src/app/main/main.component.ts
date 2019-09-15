@@ -1,20 +1,10 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  TranslateService
-} from '@ngx-translate/core';
+import { Component, OnInit} from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
-import {
-  Cell
-} from '../models/cell';
-import {
-  CellCheck
-} from '../models/cell-check';
-import {
-  Position
-} from '../models/position.enum';
+import { Cell } from '../models/cell';
+import { CellCheck } from '../models/cell-check';
+import { Position} from '../models/position.enum';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-main',
@@ -44,11 +34,14 @@ export class MainComponent implements OnInit {
   printBtnDisabled = true;
   currentClickedCell: Cell = null;
 
-  constructor(private translate: TranslateService) {}
+  constructor(private translate: TranslateService, private apiService: ApiService) {}
 
   ngOnInit() {
     const currentDate = new Date();
     this.year = currentDate.getFullYear();
+
+    // Call the KPI api
+    this.apiService.insertKpi();
   }
 
   validInput($event: KeyboardEvent) {
@@ -512,7 +505,7 @@ export class MainComponent implements OnInit {
           }
         }
         // Color all the cells
-        this.colorCellMouseDrag(cpt, position)
+        this.colorCellMouseDrag(cpt, position);
       }
       this.currentClickedCell = null;
     }
